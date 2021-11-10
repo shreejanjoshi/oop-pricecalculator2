@@ -9,33 +9,43 @@ class CustomerGroup{
     private $fixedDiscount;
     private $variableDiscount;
 
-    function __construct()
+    function __construct($id)
     {
+        
         global $connection;
-        $query = "SELECT * FROM customer_group";
+        $query = "SELECT * FROM customer WHERE id = " . $id;
+        // $query .= "WHERE id =" . $id;
         $result = mysqli_query($connection, $query);
 
-        if(!$result){
+        if (!$result) {
             die("Query failed " . mysqli_error($connection));
         }
+
+        $row = mysqli_fetch_assoc($result);
+
+        $this->id= $row[0]["id"];
+        $this->name = $result[0]["name"];
+        $this->parentId = $result[0]["parent_id"];
+        $this->fixedDisdount = $result[0]["fixed_discount"];
+        $this->variableDiscount = $result[0]["variable_discount"];
     }
 
     public function getName(){
-        $this->name;
-        global $connection;
-        $groupName = $this->query = "SELECT * FROM customer_group";
-        return $result = mysqli_query($connection, $groupName);
+        return $this->name;
+        // global $connection;
+        // $groupName = $this->query = "SELECT * FROM customer_group";
+        // return $result = mysqli_query($connection, $groupName);
     }
 
     public function getParentId(){
-        $this->parentId;
+        return $this->parentId;
     }
 
     public function getFixedDiscount(){
-        $this->fixedDiscount;
+        return $this->fixedDiscount;
     }
 
     public function getVariableDiscount(){
-        $this->variableDiscount;
+        return $this->variableDiscount;
     }
 }

@@ -11,10 +11,10 @@ class Customer
     private $fixedDisdount;
     private $variableDiscount;
 
-    function __construct()
+    function __construct($id)
     {
         global $connection;
-        $query = "SELECT * FROM customer";
+        $query = "SELECT * FROM customer WHERE id = " . $id;
         // $query .= "WHERE id =" . $id;
         $result = mysqli_query($connection, $query);
 
@@ -22,44 +22,47 @@ class Customer
             die("Query failed " . mysqli_error($connection));
         }
 
-        // $this->firstname = $result[0]["firstname"];
-        // $this->lastname = $result[0]["lastname"];
-        // $this->groupId = $result[0]["group_id"];
-        // $this->fixedDisdount = $result[0]["fixed_discount"];
-        // $this->variableDiscount = $result[0]["variable_discount"];
+        $row = mysqli_fetch_assoc($result);
+
+        $this->id= $row[0]["id"];
+        $this->firstname = $result[0]["firstname"];
+        $this->lastname = $result[0]["lastname"];
+        $this->groupId = $result[0]["group_id"];
+        $this->fixedDisdount = $result[0]["fixed_discount"];
+        $this->variableDiscount = $result[0]["variable_discount"];
 
     }
 
-    public function getId()
-    {
-        $this->id;
-        global $connection;
-        $firstname = $this->query = "SELECT firstname FROM customer";
-        return $result = mysqli_query($connection, $firstname);
-    }
+    // public function getId()
+    // {
+    //     $this->id;
+    //     global $connection;
+    //     $firstname = $this->query = "SELECT firstname FROM customer";
+    //     return $result = mysqli_query($connection, $firstname);
+    // }
 
     public function getFirstname()
     {
-        $this->firstname;
-        global $connection;
-        $firstname = $this->query = "SELECT * FROM customer";
-        return $result = mysqli_query($connection, $firstname);
+        return $this->firstname;
+        // global $connection;
+        // $firstname = $this->query = "SELECT * FROM customer";
+        // return $result = mysqli_query($connection, $firstname);
     }
 
     public function getLastname()
     {
-        $this->lastname;
-        global $connection;
-        $lastname = $this->query = "SELECT lastname FROM customer";
-        return $result = mysqli_query($connection, $lastname);
+        return $this->lastname;
+        // global $connection;
+        // $lastname = $this->query = "SELECT lastname FROM customer";
+        // return $result = mysqli_query($connection, $lastname);
     }
 
     public function getGroupId()
     {
         return $this->groupId;
-        global $connection;
-        $lastname = "SELECT lastname FROM customer";
-        return $result = mysqli_query($connection, $lastname);
+        // global $connection;
+        // $lastname = $this->query = "SELECT lastname FROM customer";
+        // return $result = mysqli_query($connection, $lastname);
     }
 
     public function getFixedDisdount()

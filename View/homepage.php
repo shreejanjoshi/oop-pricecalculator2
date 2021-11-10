@@ -1,11 +1,47 @@
-<?php require 'includes/header.php'?>
+<?php require 'Model/Customer.php' ?>
+<?php require 'Model/CustomerGroup.php' ?>
+<?php require 'Model/Product.php' ?>
+
+<?php require 'includes/header.php' ?>
+
 <!-- this is the view, try to put only simple if's and loops here.
 Anything complex should be calculated in the model -->
-<section>
-    <h4>Hello <?php echo $user->getName()?>,</h4>
+<!-- <section>
+    this is form
+</section> -->
+<?php
+$customers = new HomepageController();
+var_dump($customers->getCustomers());
+$data = $customers->getCustomers();
+?>
 
-    <p><a href="index.php?page=info">To info page</a></p>
 
-    <p>Put your content here.</p>
-</section>
-<?php require 'includes/footer.php'?>
+<div>
+    <label for="name">Usersname</label>
+    <select name="firstname">
+        <option value="name">
+
+        <?php
+        while ($row = mysqli_fetch_assoc($data)) {
+        ?>
+            <option value="">
+                <?php
+                echo $row['firstname'] .  " " . $row['lastname'];
+                ?>
+            </option>
+
+        <?php
+        }
+        ?>
+
+        </option>
+    </select>
+
+    <label for="name">group</label>
+    <select name="firstname"></select>
+
+    <label for="name">Product</label>
+    <select name="firstname"></select>
+
+</div>
+<?php require 'includes/footer.php' ?>
