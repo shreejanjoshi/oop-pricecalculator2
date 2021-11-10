@@ -13,7 +13,11 @@ class HomepageController
     {
         $this->fetchCustomers();
         $this->fetchProducts();
+        if (isset($_POST)&&!empty($_POST)) {
+            echo "works";
+        }
     }
+
 
     public function render(array $GET, array $POST)
     {
@@ -21,7 +25,7 @@ class HomepageController
         require 'View/homepage.php';
     }
 
-    public function fetchCustomers()
+    private function fetchCustomers()
     {
         global $connection;
         $query = "SELECT * FROM customer";

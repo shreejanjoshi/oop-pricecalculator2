@@ -11,20 +11,18 @@ Anything complex should be calculated in the model -->
 </section> -->
 <?php
 $customers = new HomepageController();
-var_dump($customers->getCustomers());
 $data = $customers->getCustomers();
 ?>
 
 
 <div>
-    <label for="name">Usersname</label>
-    <select name="firstname">
-        <option value="name">
-
+    <form action="" method="POST">  
+    <label for="name">Username</label>
+    <select name="customername"> 
         <?php
         while ($row = mysqli_fetch_assoc($data)) {
         ?>
-            <option value="name">
+            <option value="name" <?php echo $row['id'];?>>
                 <?php
                 echo $row['firstname'] .  " " . $row['lastname'];
                 ?>
@@ -42,6 +40,8 @@ $data = $customers->getCustomers();
 
     <label for="name">Product</label>
     <select name="firstname"></select>
-
+    </form>
+    <input type="submit" name="submit" value="submit">
 </div>
+
 <?php require 'includes/footer.php' ?>
