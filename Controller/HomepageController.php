@@ -8,13 +8,6 @@ class HomepageController
 {
     // private $customers = [];
 
-    private $id;
-    private $firstname;
-    private $lastname;
-    private $groupId;
-    private $fixedDisdount;
-    private $variableDiscount;
-
     //render function with both $_GET and $_POST vars available if it would be needed.
     function __construct()
     {
