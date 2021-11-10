@@ -6,14 +6,7 @@ include "Model/database.php";
 
 class HomepageController
 {
-    // private $customers = [];
-
-    private $id;
-    private $firstname;
-    private $lastname;
-    private $groupId;
-    private $fixedDisdount;
-    private $variableDiscount;
+    private $customers = [];
 
     //render function with both $_GET and $_POST vars available if it would be needed.
     function __construct()
@@ -30,23 +23,17 @@ class HomepageController
 
     public function fetchCustomers()
     {
-        // global $connection;
-        // $query = "SELECT * FROM customer";
-        // $result = mysqli_query($connection, $query);
-        // if (!$result) {
-        //     die("Query failed " . mysqli_error($connection));
-        // }
-
-        // $this->customers = mysqli_fetch_assoc($result);
-        // var_dump($result);
-
-        $this->firstname;
         global $connection;
-        $firstname = "SELECT * FROM customer";
-        return $result = mysqli_query($connection, $firstname);
+        $query = "SELECT * FROM customer";
+        $result = mysqli_query($connection, $query);
         if (!$result) {
             die("Query failed " . mysqli_error($connection));
         }
+
+        $this->customers = $result;
+     
+
+        
     }
 
     private function fetchProducts()
@@ -73,8 +60,8 @@ class HomepageController
         return $row = mysqli_fetch_row($result);
     }
 
-    // public function getCustomers()
-    // {
-    //     return $this->customers;
-    // }
+    public function getCustomers()
+    {
+        return $this->customers;
+    }
 }

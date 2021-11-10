@@ -24,7 +24,7 @@ $data = $customers->getCustomers();
         <?php
         while ($row = mysqli_fetch_assoc($data)) {
         ?>
-            <option value="">
+            <option value="name">
                 <?php
                 echo $row['firstname'] .  " " . $row['lastname'];
                 ?>
