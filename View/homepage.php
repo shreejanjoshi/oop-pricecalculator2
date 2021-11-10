@@ -1,7 +1,3 @@
-<?php require 'Model/Customer.php' ?>
-<?php require 'Model/CustomerGroup.php' ?>
-<?php require 'Model/Product.php' ?>
-
 <?php require 'includes/header.php' ?>
 
 <!-- this is the view, try to put only simple if's and loops here.
@@ -11,37 +7,47 @@ Anything complex should be calculated in the model -->
 </section> -->
 <?php
 $customers = new HomepageController();
-var_dump($customers->getCustomers());
-$data = $customers->getCustomers();
+// var_dump($customers->getCustomers());
+$name = $customers->getCustomers();
+$product = $customers->getProducts();
+
 ?>
 
 
 <div>
-    <label for="name">Usersname</label>
-    <select name="firstname">
-        <option value="name">
+    <form action="" method="POST">
+        <label for="name">Usersname</label>
+        <select name="name">
 
-        <?php
-        while ($row = mysqli_fetch_assoc($data)) {
-        ?>
-            <option value="">
-                <?php
-                echo $row['firstname'] .  " " . $row['lastname'];
-                ?>
+            <?php
+            while ($row = mysqli_fetch_assoc($name)) { ?>
+                <option value="<?php echo $row['id']; ?>">
+                    <?php echo $row['firstname'] .  " " . $row['lastname']; ?>
+                </option>
+            <?php
+            }
+            ?>
+
             </option>
+        </select>
 
-        <?php
-        }
-        ?>
+        <label for="product">Product</label>
+        <select name="product">
 
-        </option>
-    </select>
+            <?php
+            while ($pro = mysqli_fetch_assoc($product)) { ?>
+                <option value="<?php echo $pro['id']; ?>">
+                    <?php echo $pro['name'] ?>
+                </option>
+            <?php
+            }
+            ?>
 
-    <label for="name">group</label>
-    <select name="firstname"></select>
+            </option>
+        </select>
 
-    <label for="name">Product</label>
-    <select name="firstname"></select>
-
+        <input type="submit" name="submit" value="submit">
+    </form>
 </div>
+
 <?php require 'includes/footer.php' ?>

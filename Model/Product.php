@@ -21,9 +21,9 @@ class Product
 
         $row = mysqli_fetch_assoc($result);
 
-        $this->id= $row[0]["id"];
-        $this->name = $result[0]["name"];
-        $this->price = $result[0]["price"];
+        $this->id= $row["id"];
+        $this->name = $row["name"];
+        $this->price = $row["price"];
     }
 
     public function getName()

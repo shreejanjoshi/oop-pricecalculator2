@@ -24,13 +24,12 @@ class Customer
 
         $row = mysqli_fetch_assoc($result);
 
-        $this->id= $row[0]["id"];
-        $this->firstname = $result[0]["firstname"];
-        $this->lastname = $result[0]["lastname"];
-        $this->groupId = $result[0]["group_id"];
-        $this->fixedDisdount = $result[0]["fixed_discount"];
-        $this->variableDiscount = $result[0]["variable_discount"];
-
+        $this->id = $row["id"];
+        $this->firstname = $row["firstname"];
+        $this->lastname = $row["lastname"];
+        $this->groupId = $row["group_id"];
+        $this->fixedDisdount = $row["fixed_discount"];
+        $this->variableDiscount = $row["variable_discount"];
     }
 
     // public function getId()
@@ -65,9 +64,9 @@ class Customer
         // return $result = mysqli_query($connection, $lastname);
     }
 
-    public function getFixedDisdount()
+    public function getFixedDiscount()
     {
-        return $this->fixedDisdount;
+        return $this->fixedDiscount;
         // global $connection;
         // $fixedDiscount = $this->query = "SELECT fixed_discount FROM customer";
         // return $result = mysqli_query($connection, $fixedDiscount);
