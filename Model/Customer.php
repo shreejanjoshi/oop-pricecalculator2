@@ -8,7 +8,7 @@ class Customer
     private $firstname;
     private $lastname;
     private $groupId;
-    private $fixedDisdount;
+    private $fixedDiscount;
     private $variableDiscount;
 
     function __construct($id)
@@ -28,7 +28,7 @@ class Customer
         $this->firstname = $row["firstname"];
         $this->lastname = $row["lastname"];
         $this->groupId = $row["group_id"];
-        $this->fixedDisdount = $row["fixed_discount"];
+        $this->fixedDiscount = $row["fixed_discount"];
         $this->variableDiscount = $row["variable_discount"];
     }
 

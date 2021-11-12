@@ -18,6 +18,7 @@ class HomepageController
     private $totalFixedDiscount = 0;
     private $totalVariableDiscount = 0;
     private $finalCost;
+    private $totalAfterPer;
 
 
     //render function with both $_GET and $_POST vars available if it would be needed.
@@ -50,6 +51,7 @@ class HomepageController
 
         if ($this->customer->getVariableDiscount() == NULL) {
             $this->totalFixedDiscount += $this->customer->getFixedDiscount();
+            var_dump($this->customer->getFixedDiscount());
         } else {
             if ($this->totalVariableDiscount < $this->customer->getVariableDiscount()) {
                 $this->totalVariableDiscount = $this->customer->getVariableDiscount();
@@ -58,6 +60,7 @@ class HomepageController
 
         if ($this->group->getVariableDiscount() == NULL) {
             $this->totalFixedDiscount += $this->group->getFixedDiscount();
+            var_dump($this->group->getFixedDiscount());
         } else {
             if ($this->totalVariableDiscount < $this->group->getVariableDiscount()) {
                 $this->totalVariableDiscount = $this->group->getVariableDiscount();
@@ -67,11 +70,18 @@ class HomepageController
         $this->checkParentId($this->group);
 
         $this->finalCost = $this->product->getPrice() - ($this->totalFixedDiscount * 100);
-        if($this->finalCost < 0){
+
+
+
+        if ($this->finalCost < 0) {
             $this->finalCost = 0;
-        }else{
-            $this->finalCost = (100 - $this->totalVariableDiscount) / 100 * $this->finalCost;
+        } else {
+            // $this->finalCost = (100 - $this->totalVariableDiscount) / 100 * $this->finalCost;
+            $this->totalAfterPer = $this->finalCost * $this->totalVariableDiscount / 100;
+
+            $this->finalCost = $this->finalCost - $this->totalAfterPer;
         }
+        // var_dump($this->product->getPrice() - ($this->totalFixedDiscount * 100));
 
 
         // if ($this->groupParentId != "NULL") {
@@ -92,7 +102,8 @@ class HomepageController
         // }
     }
 
-    public function getFinalAmount(){
+    public function getFinalAmount()
+    {
         return $this->finalCost;
     }
 

@@ -14,7 +14,7 @@ class CustomerGroup
     {
 
         global $connection;
-        $query = "SELECT * FROM customer WHERE id = " . $id;
+        $query = "SELECT * FROM customer_group WHERE id = " . $id;
         // $query .= "WHERE id =" . $id;
         $result = mysqli_query($connection, $query);
 
@@ -23,11 +23,10 @@ class CustomerGroup
         }
 
         $row = mysqli_fetch_assoc($result);
-
         $this->id = $row["id"];
         $this->name = $row["name"];
         $this->parentId = $row["parent_id"];
-        $this->fixedDisdount = $row["fixed_discount"];
+        $this->fixedDiscount = $row["fixed_discount"];
         $this->variableDiscount = $row["variable_discount"];
     }
 
