@@ -48,6 +48,12 @@ $product = $customers->getProducts();
 
         <input type="submit" name="submit" value="submit">
     </form>
+
+    <?php
+    if (isset($_POST) && !empty($_POST)) {
+        echo $customers->getFinalAmount();
+    }
+    ?>
 </div>
 
 <?php require 'includes/footer.php' ?>

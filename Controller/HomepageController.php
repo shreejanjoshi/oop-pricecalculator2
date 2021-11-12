@@ -14,6 +14,11 @@ class HomepageController
     private $customer;
     private $group;
     private $product;
+    private $groupParentId;
+    private $totalFixedDiscount = 0;
+    private $totalVariableDiscount = 0;
+    private $finalCost;
+
 
     //render function with both $_GET and $_POST vars available if it would be needed.
     function __construct()
@@ -28,40 +33,93 @@ class HomepageController
     private function calculate()
     {
         $this->customer = new Customer($_POST['name']);
-        //__________________________________________________________________
-        $customerGroupId = $this->customer->getGroupId();
-        $customerFixedDiscount =  $this->customer->getFixedDiscount();
-        $customerVariableDiscount =  $this->customer->getVariableDiscount();
+        //_____________________________________________
+        // $customerGroupId = $this->customer->getGroupId();
+        //$customerFixedDiscount =  $this->customer->getFixedDiscount();
+        //$customerVariableDiscount =  $this->customer->getVariableDiscount();
 
         $this->product = new Product($_POST['product']);
-        //__________________________________________________________________
-        $cost = $this->product->getPrice();
+        //_____________________________________________
+        // $cost = $this->product->getPrice();
 
-        $this->group = new CustomerGroup($customerGroupId);
-        //____________________________________________________________________
-        $groupParentId = $this->group->getParentId();
-        $groupFixedDiscount = $this->group->getFixedDiscount();
-        $groupVariableDiscount =  $this->customer->getVariableDiscount();
+        $this->group = new CustomerGroup($this->customer->getGroupId());
+        //_____________________________________________
+        // $this->groupParentId = $this->group->getParentId();
+        // $groupFixedDiscount = $this->group->getFixedDiscount();
+        // $groupVariableDiscount =  $this->customer->getVariableDiscount();
 
-        $totalFixedDiscount = 0;
-        $totalVariableDiscount = 0;
-
-        while($groupParentId != "NULL"){
-            $totalFixedDiscount += $groupFixedDiscount;
-            $groupFixedDiscount = $this->group->getFixedDiscount();
-            if($groupFixedDiscount == "NULL"){
-                $groupFixedDiscount = 0;
+        if ($this->customer->getVariableDiscount() == NULL) {
+            $this->totalFixedDiscount += $this->customer->getFixedDiscount();
+        } else {
+            if ($this->totalVariableDiscount < $this->customer->getVariableDiscount()) {
+                $this->totalVariableDiscount = $this->customer->getVariableDiscount();
             }
-            $groupVariableDiscount =  $this->customer->getVariableDiscount();
-            if($groupVariableDiscount == "NULL"){
-                $groupVariableDiscount = 0;
+        }
+
+        if ($this->group->getVariableDiscount() == NULL) {
+            $this->totalFixedDiscount += $this->group->getFixedDiscount();
+        } else {
+            if ($this->totalVariableDiscount < $this->group->getVariableDiscount()) {
+                $this->totalVariableDiscount = $this->group->getVariableDiscount();
             }
+        }
+
+        $this->checkParentId($this->group);
+
+        $this->finalCost = $this->product->getPrice() - ($this->totalFixedDiscount * 100);
+        if($this->finalCost < 0){
+            $this->finalCost = 0;
+        }else{
+            $this->finalCost = (100 - $this->totalVariableDiscount) / 100 * $this->finalCost;
+        }
+
+
+        // if ($this->groupParentId != "NULL") {
+
+        //     $totalFixedDiscount -=
+
+        //         $totalFixedDiscount = $customerFixedDiscount - $groupFixedDiscount - $newFixedDiscount;
+        //     $totalVariableDiscount = max($customerVariableDiscount, $groupVariableDiscount, $newVariableDiscount);
+        //     //_____________________________________________________________________
+        //     // $groupFixedDiscount = $this->group->getFixedDiscount();
+        //     // if($groupFixedDiscount == "NULL"){
+        //     //     $groupFixedDiscount = 0;
+        //     // }
+        //     // $groupVariableDiscount =  $this->customer->getVariableDiscount();
+        //     // if($groupVariableDiscount == "NULL"){
+        //     //     $groupVariableDiscount = 0;
+        //     // }
+        // }
+    }
+
+    public function getFinalAmount(){
+        return $this->finalCost;
+    }
+
+    private function checkParentId($data)
+    {
+
+        // $newParentId = new CustomerGroup($this->groupParentId);
+        // $newFixedDiscount = $this->group->getFixedDiscount();
+        // $newVariableDiscount = $this->group->getVariableDiscount();
+
+        if (!empty($data->getParentId())) {
+            $newParent = new CustomerGroup($data->getParentId());
+
+            if ($newParent->getVariableDiscount() == NULL) {
+                $this->totalFixedDiscount += $newParent->getFixedDiscount();
+            } else {
+                if ($this->totalVariableDiscount < $newParent->getVariableDiscount()) {
+                    $this->totalVariableDiscount = $newParent->getVariableDiscount();
+                }
+            }
+
+            $this->checkParentId($newParent);
         }
     }
 
     public function render(array $GET, array $POST)
     {
-
         require 'View/homepage.php';
     }
 
